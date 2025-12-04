@@ -229,32 +229,7 @@ export default function ImageCube({ images, className = "" }: ImageCubeProps) {
           </div>
         ))}
 
-        {/* Edge highlights - only show when hovering or dragging */}
-        {(isHovering || isDragging) && (
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              width: cubeSize,
-              height: cubeSize,
-              transformStyle: "preserve-3d",
-            }}
-          >
-            {/* Glowing edges */}
-            {[0, 90, 180, 270].map((angle) => (
-              <div
-                key={angle}
-                className="absolute"
-                style={{
-                  width: "2px",
-                  height: cubeSize,
-                  background: "linear-gradient(to bottom, rgba(148,163,184,0.6), rgba(148,163,184,0.2), rgba(148,163,184,0.6))",
-                  transform: `rotateY(${angle}deg) translateZ(${halfSize}px) translateX(-1px)`,
-                  boxShadow: "0 0 10px rgba(148,163,184,0.5)",
-                }}
-              />
-            ))}
-          </div>
-        )}
+        {/* Edge highlights removed to avoid vertical line while rotating */}
       </div>
 
       {/* Shadow below */}

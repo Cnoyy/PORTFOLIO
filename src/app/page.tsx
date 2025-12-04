@@ -126,27 +126,40 @@ export default function Home() {
         <Scene />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Content */}
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                <SwingText text="Hi, I'm " className="text-white" />
-                <SwingText text="Shinoy" className="text-transparent bg-clip-text bg-gradient-to-r from-slate-400 via-gray-500 to-slate-400" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.4)' }} />
+              <h1 className="mt-10 md:mt-12 lg:mt-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 whitespace-nowrap">
+                {/* Gradient "Hi, I'm" with soft light outline */}
+                <SwingText
+                  text="Hi, I'm "
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-slate-400 via-gray-500 to-slate-400 lilita-one-regular"
+                  style={{ WebkitTextStroke: '1px rgba(255,255,255,0.4)' }}
+                />
+                {/* Solid white "Shinoy" with subtle gray stroke */}
+                <SwingText
+                  text="SHINOY"
+                  className="text-white titan-one-regular"
+                  style={{
+                    WebkitTextStroke: '1px rgba(148,163,184,0.5)',
+                  }}
+                />
               </h1>
 
               <p className="text-xl sm:text-2xl md:text-3xl text-white mb-4">
-                <SwingText text="Frontend Developer & UI Designer" />
+                <SwingText text="Frontend Developer & UI Designer" className="lilita-one-regular" />
               </p>
 
               <p className="text-lg text-gray-300 max-w-xl mx-auto lg:mx-0 mb-8">
-                <SwingText text="Blending artistic creativity with technical precision to craft " />
-                <SwingText text="visually stunning interfaces. I transform ideas into pixel-perfect " />
-                <SwingText text="designs with an eye for aesthetics and a passion for intuitive " />
-                <SwingText text="user experiences." />
+                <SwingText
+                  text="Blending artistic creativity with technical precision to craft visually stunning interfaces. I transform ideas into pixel-perfect designs with an eye for aesthetics and a passion for intuitive user experiences."
+                  className="averia-gruesa-libre-regular"
+                />
               </p>
 
-              {/* Social links and availability in one line */}
-              <div className="flex items-center justify-center lg:justify-start gap-6 mt-8">
+              {/* Social links row + secondary row for contact/availability on mobile */}
+              <div className="flex flex-col items-center gap-4 mt-8 lg:flex-row lg:items-center lg:justify-start lg:gap-6">
+                {/* Row 1: Social icons */}
                 <div className="flex items-center gap-3">
                   {socialLinks.map((social) => (
                     <a
@@ -161,45 +174,57 @@ export default function Home() {
                     </a>
                   ))}
                 </div>
-                
-                <div className="h-6 w-px bg-slate-700" />
-                
-                <a 
-                  href="#contact"
-                  className="flex items-center gap-2 text-slate-400 hover:text-white transition-all duration-300 text-sm group"
-                >
-                  <Phone size={16} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
-                  <span>Contact</span>
-                </a>
-                
-                <div className="h-6 w-px bg-slate-700" />
-                
-                <div className="flex items-center gap-2 text-slate-400 text-sm">
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/50" />
-                  <span>Available for work</span>
+
+                {/* Row 2 on mobile, inline on desktop: Contact + Available for work */}
+                <div className="flex items-center gap-6">
+                  <div className="h-6 w-px bg-slate-700" />
+
+                  <a 
+                    href="#contact"
+                    className="flex items-center gap-2 text-slate-400 hover:text-white transition-all duration-300 text-sm group"
+                  >
+                    <Phone size={16} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
+                    <span>Contact</span>
+                  </a>
+
+                  <div className="h-6 w-px bg-slate-700" />
+
+                  <div className="flex items-center gap-2 text-slate-400 text-sm">
+                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/50" />
+                    <span>Available for work</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Profile Image - 3D Cube */}
+            {/* Profile Image - 3D Cube with reactive particles on hover */}
             <div className="relative flex justify-center lg:justify-end">
-              <div className="relative flex items-center justify-center" style={{ width: 320, height: 320 }}>
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-600 to-gray-600 rounded-full blur-3xl opacity-20 scale-110" />
-                
-                {/* 3D Image Cube */}
-                <ImageCube 
-                  // Pass empty array so ImageCube uses its own /s*.jpg defaults
-                  images={[]}
-                  className="relative z-10" 
-                />
-                
-                {/* Instruction text */}
-                <p className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-slate-500 text-xs whitespace-nowrap flex items-center gap-2">
-                  <RotateCw className="w-3 h-3 animate-spin-slow" />
-                  Drag to rotate
-                </p>
-              </div>
+              <ParticleContainer
+                className="relative flex items-center justify-center"
+                particleCount={10}
+                particleSize={{ min: 5, max: 12 }}
+                maxParticles={90}
+                shapeMode="mixed"
+                intensifyOnHover
+              >
+                <div className="relative flex items-center justify-center" style={{ width: 320, height: 320 }}>
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-600 to-gray-600 rounded-full blur-3xl opacity-20 scale-110" />
+                  
+                  {/* 3D Image Cube */}
+                  <ImageCube 
+                    // Pass empty array so ImageCube uses its own /s*.jpg defaults
+                    images={[]}
+                    className="relative z-10 scale-75 sm:scale-75 md:scale-90 lg:scale-100" 
+                  />
+                  
+                  {/* Instruction text */}
+                  <p className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-slate-500 text-xs whitespace-nowrap flex items-center gap-2">
+                    <RotateCw className="w-3 h-3 animate-spin" />
+                    Drag to rotate
+                  </p>
+                </div>
+              </ParticleContainer>
             </div>
           </div>
         </div>
@@ -219,10 +244,13 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <SwingText text="Get In Touch" />
+              <SwingText text="Get In Touch" className="lilita-one-regular" />
             </h2>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              <SwingText text="Have a project in mind or want to collaborate? I'd love to hear from you!" />
+              <SwingText
+                text="Have a project in mind or want to collaborate? I'd love to hear from you!"
+                className="averia-gruesa-libre-regular"
+              />
             </p>
           </div>
 
@@ -231,11 +259,13 @@ export default function Home() {
             <div className="lg:col-span-2 space-y-6">
               <div>
                 <h3 className="text-2xl font-bold mb-4">
-                  <SwingText text="Let's work together" />
+                  <SwingText text="Let's work together" className="lilita-one-regular" />
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
-                  <SwingText text="I'm always open to discussing new projects, creative ideas, " />
-                  <SwingText text="or opportunities to be part of your vision." />
+                  <SwingText
+                    text="I'm always open to discussing new projects, creative ideas, and meaningful collaborations that push design boundaries. Whether it's a portfolio website, a product interface, or a full brand experience, I'm excited to explore how we can bring your vision to life together."
+                    className="averia-gruesa-libre-regular"
+                  />
                 </p>
               </div>
 
@@ -295,8 +325,8 @@ export default function Home() {
                   <div className="grid sm:grid-cols-2 gap-6">
                     <ParticleContainer particleCount={4} particleSize={{ min: 3, max: 8 }} maxParticles={25}>
                       <div className="group">
-                        <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-white transition-colors">
-                          <SwingText text="Your Name" />
+                        <label htmlFor="name" className="block text-sm font-medium text-white mb-2 group-focus-within:text-white transition-colors">
+                          <SwingText text="Name" />
                         </label>
                         <div className="relative hover-shiver">
                           <input
@@ -314,8 +344,8 @@ export default function Home() {
                     </ParticleContainer>
                     <ParticleContainer particleCount={4} particleSize={{ min: 3, max: 8 }} maxParticles={25}>
                       <div className="group">
-                        <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-white transition-colors">
-                          <SwingText text="Your Email" />
+                        <label htmlFor="email" className="block text-sm font-medium text-white mb-2 group-focus-within:text-white transition-colors">
+                          <SwingText text="Email" />
                         </label>
                         <div className="relative hover-shiver">
                           <input
@@ -335,7 +365,7 @@ export default function Home() {
 
                   <ParticleContainer particleCount={4} particleSize={{ min: 3, max: 8 }} maxParticles={25}>
                     <div className="group">
-                      <label htmlFor="subject" className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-white transition-colors">
+                      <label htmlFor="subject" className="block text-sm font-medium text-white mb-2 group-focus-within:text-white transition-colors">
                         <SwingText text="Subject" />
                       </label>
                       <div className="relative hover-shiver">
@@ -355,7 +385,7 @@ export default function Home() {
 
                   <ParticleContainer particleCount={5} particleSize={{ min: 3, max: 8 }} maxParticles={30}>
                     <div className="group">
-                      <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-2 group-focus-within:text-white transition-colors">
+                      <label htmlFor="message" className="block text-sm font-medium text-white mb-2 group-focus-within:text-white transition-colors">
                         <SwingText text="Message" />
                       </label>
                       <div className="relative hover-shiver">

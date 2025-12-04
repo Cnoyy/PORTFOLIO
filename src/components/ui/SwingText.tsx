@@ -217,7 +217,7 @@ export default function SwingText({ text, className = "", style }: SwingTextProp
   return (
     <span 
       ref={containerRef} 
-      className={`inline-flex flex-wrap relative ${className}`}
+      className={`inline-block relative ${className}`}
       style={{ perspective: "800px", ...style }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
