@@ -206,6 +206,7 @@ export default function Home() {
                 maxParticles={90}
                 shapeMode="mixed"
                 intensifyOnHover
+                useViewportCoords
               >
                 <div className="relative flex items-center justify-center" style={{ width: 320, height: 320 }}>
                   {/* Glow effect */}

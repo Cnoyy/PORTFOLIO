@@ -23,6 +23,8 @@ interface ParticleContainerProps {
   shapeMode?: "dots" | "stars" | "mixed";
   // When true, particle emission and speed increase while hovering
   intensifyOnHover?: boolean;
+  // When true, particles are positioned in viewport coordinates, so they can spread across the whole screen
+  useViewportCoords?: boolean;
 }
 
 export default function ParticleContainer({
@@ -33,6 +35,7 @@ export default function ParticleContainer({
   maxParticles = 30,
   shapeMode = "dots",
   intensifyOnHover = false,
+  useViewportCoords = false,
 }: ParticleContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
@@ -50,8 +53,8 @@ export default function ParticleContainer({
             ...p,
             x: p.x + p.velocityX,
             y: p.y + p.velocityY,
-            opacity: p.opacity - 0.025,
-            size: p.size * 0.98,
+            opacity: p.opacity - 0.015,
+            size: p.size * 0.99,
           }))
           .filter(p => p.opacity > 0)
       );
@@ -91,26 +94,11 @@ export default function ParticleContainer({
 
       for (let i = 0; i < effectiveCount; i++) {
         particleIdRef.current += 1;
-        // Spawn particles around the edges
-        const edge = Math.floor(Math.random() * 4);
-        let x, y;
-        switch (edge) {
-          case 0: // top
-            x = Math.random() * rect.width;
-            y = 0;
-            break;
-          case 1: // right
-            x = rect.width;
-            y = Math.random() * rect.height;
-            break;
-          case 2: // bottom
-            x = Math.random() * rect.width;
-            y = rect.height;
-            break;
-          default: // left
-            x = 0;
-            y = Math.random() * rect.height;
-        }
+        // Spawn particles randomly inside the container so it doesn't look like a box
+        const offsetX = useViewportCoords ? rect.left : 0;
+        const offsetY = useViewportCoords ? rect.top : 0;
+        const x = offsetX + Math.random() * rect.width;
+        const y = offsetY + Math.random() * rect.height;
         const shape: "dot" | "star" =
           shapeMode === "stars"
             ? "star"
@@ -128,8 +116,8 @@ export default function ParticleContainer({
           y,
           size: shape === "star" ? baseSize * 1.4 : baseSize,
           opacity: 0.9,
-          velocityX: (Math.random() - 0.5) * 4 * (intensifyOnHover ? intensity : 1),
-          velocityY: (Math.random() - 0.5) * 4 * (intensifyOnHover ? intensity : 1),
+          velocityX: (Math.random() - 0.5) * 6 * (intensifyOnHover ? intensity : 1),
+          velocityY: (Math.random() - 0.5) * 6 * (intensifyOnHover ? intensity : 1),
           shape,
         });
       }
@@ -150,8 +138,9 @@ export default function ParticleContainer({
       {particles.map(particle => (
         <div
           key={particle.id}
-          className="absolute rounded-full pointer-events-none"
+          className="rounded-full pointer-events-none"
           style={{
+            position: useViewportCoords ? "fixed" : "absolute",
             left: `${particle.x}px`,
             top: `${particle.y}px`,
             width: `${particle.size}px`,
